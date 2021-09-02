@@ -1,0 +1,25 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Owen Blair
+% ECE-351-52
+% Lab 0
+% 9/9/2021
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+1.6.1 --> Here is my header for the labs
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% Your Name 
+% Course Number and Section 
+% Lab Number 
+% Due Date 
+% Any other necessary information needed to navigate the file 
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+1.6
+	A) I was lucky to have gone a Grand Canyon rafting trip for 18 days! After that I worked the rest of the summer
+		I am planning a few more raft trips and then will probably work all summer (again)
+	B) I want to be better at documenting my code and become more efficient about how I write my code
