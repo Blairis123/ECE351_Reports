@@ -1,0 +1,335 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% Owen Blair
+% ECE 351-52 
+% Lab 7
+% 10/21/2021
+% Any other necessary information needed to navigate the file 
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% DOCUMENT PREAMBLE %%%
+\documentclass[12pt]{report}
+\usepackage[english]{babel}
+%\usepackage{natbib}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{minted}
+
+%The following package is used to keep things from floating around!
+\usepackage[section]{placeins}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codeblue}{rgb}{0,0,0.95}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codegreen},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+
+\title{1}								
+% Title
+\author{Owen Blair}						
+% Author
+\date{due date}
+% Date
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\cfoot{\thepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\centering
+    \vspace*{0.5 cm}
+   % \includegraphics[scale = 0.075]{bsulogo.png}\\[1.0 cm]	% University Logo
+\begin{center}    \textsc{\Large   ECE 351 - 52}\\[2.0 cm]	\end{center}% University Name
+	\textsc{\Large Signals and Systems 1  }\\[0.5 cm]		% Course Code
+	\textsc{\Large Lab 7 }\\[0.5 cm]
+%	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+%	{ \huge \bfseries \thetitle}\\
+%	\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft} \large
+		%	\emph{Submitted To:}\\
+		%	Name\\
+          % Affiliation\\
+           %contact info\\
+			\end{flushleft}
+			\end{minipage}~
+			\begin{minipage}{0.4\textwidth}
+            
+			\begin{flushright} \large
+			\emph{Submitted By :} \\
+			Owen Blair  
+		\end{flushright}
+           
+	\end{minipage}\\[2 cm]
+	
+%	\includegraphics[scale = 0.5]{PICMathLogo.png}
+    
+    
+    
+    
+	
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\thesection}{\arabic{section}}
+\section{Important Notes}
+It is important to note that plt.show() is needed at the end of the python code to properly show the plots of each function. It was not included in every section of code that plots a function(s) because it is assumed that its included at the end the code.\\
+\\
+The web address to the GitHub where \LaTeX\ code is stored is here:\\
+https://github.com/Blairis123/ECE351\_Reports\\
+\\
+The web address to the GitHub where the Python code is here:\\
+https://github.com/Blairis123/ECE351\_Code\\
+\\
+\section{Part 1 Deliverables}
+The purpose of part 1 is to use python to perform an analysis on a block diagram as you would by hand. This starts by factoring the functions G(s), A(s), and B(s) along with identifying the poles of each function. The hand found functions can be found in the equations section. The zeros and poles of each function are as follows:
+\begin{lstlisting}
+Zeros for A = -4
+Poles for A = -3, -1
+Zeros for B = -14, -12
+Poles for B = NA (No denominator to have poles)
+Zeros for G = -4
+Poles for G = 8, -4, -2
+\end{lstlisting}
+
+Then the factored function's poles and zeros are checked against an output from the scipy.signal.tf2zpk() function which are as follows:
+\begin{lstlisting}
+Zeros for A
+[-4.]
+
+Poles for A
+[-3. -1.]
+
+Zeros for B
+[-14. -12.]
+
+Poles for B
+[]
+
+Zeros for G
+[-4.]
+
+Poles for G
+[ 8. -4. -2.]
+\end{lstlisting}
+Next the open loop transfer function is found and can be seen in the equation section. Considering the found open loop transfer function it can be found it is unstable. This is evidenced by the fact that the open loop transfer function has a positive pole, putting a pole of the function in the right side of the plane. having a pole on the right side of the plane means that the function in question will be unstable. The instability of the open loop transfer function can be seen in Figure 1. Figure 1 is the step response of the open loop transfer function and it can be seen going to infinity and not approaching a real number as time goes to infinity. The code needed to make the calculation and plot the step response is available in Listing 1.
+
+
+\section{Part 2 Deliverables}
+Part 2 continues the exploration of using Python to do an analysis of block diagrams but this time the closed loop transfer function is considered. The closed loop transfer function solved symbolically can be found in the equations section. Using the convolve and tf2zpk functions from scipy.signal the closed loop transfer was found and can be seen in the equation section. The closed loop transfer function will be stable because it has no poles on the right hand side of the plane. The plot of the step response can be found in Figure 2. The plot in Figure 2 supports the closed loop transfer function being stable because the function can be seen approaching a real number. This is a good indication that the system is stable. The code used for plotting the step response and finding the transfer function can be found in listing 2.
+
+%-----------------END DELIVERABLES AND DESCRIPTIONS
+
+\section{Results}
+\textit{Figure 1: Open Loop Transfer Function Step Response}\\
+\includegraphics[width=6in]{Lab7/Open_Loop_Step_Response.png}\\
+
+\textit{Figure : Closed Loop Transfer Function Step Response}\\
+\includegraphics[width=6in]{Lab7/Closed_Loop_Step_Response.png}\\
+%---------------------------END RESULTS
+\section{Equations}
+\textit{Equation 1: Factored A(s)}\\
+$$A(s)=\frac{s+4}{(s+1)(s+3)}$$
+
+\textit{Equation 2: Factored B(s)}\\
+$$B(s)=(s+14)(s+12)$$
+
+\textit{Equation 3: Factored G(s)}\\
+$$G(s)=\frac{s+9}{(s+4)(s+2)(s-8)}$$
+
+\textit{Equation 4: Factored Open Loop Transfer Function}\\
+$$H_{T open}=\frac{(s+4)(s+9)}{}$$
+
+\textit{Equation 5: Symbolic Closed Loop Transfer Function}\\
+$$H_{T closed}=\frac{AG}{1+GB}$$
+
+\textit{Equation 6: Scipy.signal Found Transfer Function}
+$$H_{T closed}=\frac{s^2+13s+36}{2s^5+41s^4+500s^3+2995s^2+6878s+4344}$$
+%---------------------------END EQUATIONS
+\section{Listings}
+
+\textit{Listing 1: Part 1}\\
+\begin{lstlisting}[language=Python]
+#--------------END FUNCTIONS-----------------------------#
+
+        #THIS WILL BE THE SAME FOR THE ENTIRE LAB!
+
+    #Define step size
+steps = 1e-2
+
+    #t for part 1
+start = 0
+stop = 10
+    #Define a range of t_pt1. Start @ 0 go to 20 (+a step) w/
+    #a stepsize of step
+t = np.arange(start, stop + steps, steps)
+
+#--------------PART 1, OPEN-LOOP------------------------------------#
+    #Find the roots and the poles
+A_num = [1, 4]
+A_den = [1, 4, 3]
+
+B_num = [1, 26, 168]
+B_den = [1]
+
+G_num = [1, 4]
+G_den = [1, -2, -40, -64]
+
+zeros_A, pole_A, gain_A = sig.tf2zpk(A_num, A_den)
+zeros_B, pole_B, gain_B = sig.tf2zpk(B_num, B_den)
+zeros_G, pole_G, gain_G = sig.tf2zpk(G_num, G_den)
+
+print("Zeros for A")
+print(zeros_A)
+print("")
+print("Poles for A")
+print(pole_A)
+print("")
+print("Zeros for B")
+print(zeros_B)
+print("")
+print("Poles for B")
+print(pole_B)
+print("")
+print("Zeros for G")
+print(zeros_G)
+print("")
+print("Poles for G")
+print(pole_G)
+print("")
+
+H_open_num = [1, 9]
+H_open_den = [1, -2, -37, -82, -48]
+
+zero_H_open, pole_H_open, gain_H_open = sig.tf2zpk(H_open_num, H_open_den)
+
+print("Poles of the open loop transfer function")
+print(pole_H_open)
+print("")
+
+stepTOpen, stepHOpen = sig.step((H_open_num, H_open_den), T = t)
+
+plt.figure(figsize=(10,7))
+plt.plot(stepTOpen, stepHOpen)
+plt.grid()
+plt.xlabel("Time")
+plt.ylabel("Output")
+plt.title("Open Loop Transfer Function Step Response")
+\end{lstlisting}
+
+\textit{Listing 2: Part 2}\\
+\begin{lstlisting}[language=Python]
+#-------------PART 2, CLOSED-LOOP--------------------------------------------#
+
+    #Finding the Numerator and Denomenator of transfer function
+H_clo_num = sig.convolve([1,4],[1,9])
+
+part_den = sig.convolve([1,1],[1,3])
+H_clo_den = sig.convolve(part_den,[2,33,362,1448])
+
+print("Closed loop numerator = ", H_clo_num)
+print("Closed loop denemonator = ", H_clo_den)
+print()
+
+    #This is what the num and den should look like
+#H_clo_num = [1, 13, 36]
+#H_clo_den = [2, 41, 500, 2995, 6878, 4344]
+
+zeros_H_clo, pole_H_clo, gain_H_clo = sig.tf2zpk(H_clo_num, H_clo_den)
+
+print("Poles of the closed loop transfer function:")
+print(pole_H_clo)
+print("")
+
+    #Define transfer function!
+stepTClosed, stepHClosed = sig.step((H_clo_num, H_clo_den), T = t)
+
+    #Make plots for pt1
+plt.figure(figsize=(10,7))
+plt.plot(stepTClosed, stepHClosed)
+plt.grid()
+plt.xlabel("Time")
+plt.ylabel("Output")
+plt.title("Closed Loop Transfer Function Step Response")
+\end{lstlisting}
+
+
+%----------------------END CODE LISTINGS
+
+\section{Questions}
+\subsection{Question 1}
+Convolvoing the factored terms of the denominator and numerator results in the expanded form of the denominator and denominator. This is because the convolution of two functions is the same as the multiplication of the two functions Laplace transform. The lab 3 user defined convolution would not work. This can be shown through testing. The following is an output using the code from lab 3:
+
+\begin{lstlisting}
+runfile('D:/U_of_I/Fall_2021/ECE-351/Lab3/Lab3_OwenBlair.py', wdir='D:/U_of_I/Fall_2021/ECE-351/Lab3')
+
+Test1 input:  [1, 4]
+Test2 input:  [1, 9, 4, 2]
+
+User convolve:  [ 9. 40. 18.  8.  0.]
+
+sig.convolve output:  [ 1 13 40 18  8]
+\end{lstlisting}
+
+The correct answer is $(s+4)(s^3_9s^2+4s+2)=s^4+13s^3+40s^2+18s+8$ which is given by the sig.convolve function and not the user defined function from lab 3.
+
+\subsection{Question 2}
+The difference between the open loop system and the close loop system is that closed loop includes the feedback loop through B(s) and the open loop does not account for the feedback through B(s). Stability differs in each case because the denominator of the open loop transfer function includes a pole that resides within the right hand side of plane, where the closed loop transfer function has poles that all exist within the left side of the plane. If a function does not have all of its poles on the left side of the plane then it will be unstable.
+
+\subsection{Question 3}
+The difference between scipy.signal.residue() and scipy.signal.tf2zpk() is that the residue command computes the partial fraction expansion where the tf2zpk command returns the zeros, poles and the gain from the two input arrays. This information can be found in the documentation for both functions.
+
+\subsection{Question 4}
+It is possible for an open loop system to be stable. Using the A(s) from the equations section, and a modified G(s) where $G(s)=\frac{s+9}{(s+4)(s+2)(s+8)}$ would be a stable system because all of its poles are on the left side of the plane. Using a similar method it can be shown that a closed loop system can be unstable. Using the system described in the lab and the functions G(s), B(s), and a modified A(s), where the denominator of A(s) is $(s+1)(s-3)$, you can find that the transfer function is unstable. This can be seen by the transfer function having a pole on the right side of the plane, caused by the $(s-3)$ term in A(s).
+
+\end{document}
